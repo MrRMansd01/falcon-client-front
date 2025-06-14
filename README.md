@@ -1,58 +1,41 @@
-# Falcon Client
+# سیستم مدیریت تسک
 
-A modern and sleek game client interface with a beautiful UI design.
+این یک سیستم مدیریت تسک با رابط کاربری فارسی است که با استفاده از Express.js و JavaScript خالص ساخته شده است.
 
-## Features
+## ویژگی‌ها
 
-- Responsive design
-- Modern UI with gradient effects
-- Interactive buttons with hover animations
-- Sound effects for interactions
-- RTL (Right-to-Left) support for Persian language
+- سیستم احراز هویت کاربران (ورود و ثبت نام)
+- مدیریت تسک‌ها (ایجاد، مشاهده، ویرایش و حذف)
+- رابط کاربری فارسی و واکنش‌گرا
+- طراحی مدرن و کاربرپسند
 
-## Technologies Used
+## نصب و راه‌اندازی
 
-- HTML5
-- CSS3
-- JavaScript
-- Modern CSS features (Flexbox, Transitions, Transforms)
-
-## Setup
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/falcon-client.git
+1. ابتدا مخزن را کلون کنید:
+```
+git clone [آدرس مخزن]
 ```
 
-2. Open `index.html` in your browser to view the project.
-
-## Project Structure
-
+2. وابستگی‌ها را نصب کنید:
 ```
-falcon-client/
-├── index.html
-├── styles.css
-├── script.js
-├── assets/
-│   ├── game-background.jpg
-│   ├── fc-logo.png
-│   ├── users-icon.png
-│   ├── book-icon.png
-│   ├── star-icon.png
-│   ├── settings-icon.png
-│   ├── hover.mp3
-│   └── click.mp3
-└── README.md
+npm install
 ```
 
-## Contributing
+3. سرور را اجرا کنید:
+```
+node server.js
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+4. به آدرس `http://localhost:3001` در مرورگر خود بروید.
 
-## License
+## نحوه استفاده
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+- برای ورود به سیستم می‌توانید از نام کاربری `admin` و رمز عبور `admin123` استفاده کنید.
+- یا می‌توانید با استفاده از فرم ثبت نام، یک حساب کاربری جدید ایجاد کنید.
+
+## تکنولوژی‌های استفاده شده
+
+- **Express.js**: برای ساخت سرور و مدیریت روت‌ها
+- **express-session**: برای مدیریت نشست‌های کاربری
+- **HTML/CSS/JavaScript**: برای رابط کاربری
+- **Vazirmatn Font**: برای پشتیبانی از زبان فارسی

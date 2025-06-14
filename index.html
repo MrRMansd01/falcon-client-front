@@ -3,37 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Falcon Client</title>
+    <title>سیستم مدیریت تسک</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <div class="container">
-        <header>
-             <div class="sign-up">
-                <button class="sign-up-btn">Sign up</button>
+        <div class="main-content">
+            <div class="header">
+                <div class="task-count">
+                    <span class="task-count-number">0</span>
+                    <span class="task-count-text">تسک</span>
+                </div>
+                <div class="header-actions">
+                    <button class="excel-upload-btn" id="excelUploadBtn" title="آپلود از اکسل">📝</button>
+                    <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;">
+                    <button class="add-task-btn">افزودن تسک جدید</button>
+                    <button class="clear-completed-btn">حذف تکمیل شده‌ها</button>
+                </div>
             </div>
-            <div class="logo">
-                <img src="fc-logo.png" alt="FC Logo" class="logo-img">
-            </div>           
-        </header>
+            
+            <div class="tasks-container">
+                </div>
 
-        <main>
-            <div class="content">
-                <h1>Falcon Client</h1>
-                <div class="buttons">
-                    <button class="game-btn single-player">Single player</button>
-                    <button class="game-btn multi-player">Multi Player</button>
+            <div class="task-filters">
+                <button class="filter-btn" data-filter="incomplete">در حال انجام</button>
+                <button class="filter-btn active all" data-filter="all">همه</button>
+                <button class="filter-btn completed" data-filter="completed">تکمیل شده</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>تسک‌های تکمیل شده</h3>
+                    <div class="stat-number">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>تسک‌های در انتظار</h3>
+                    <div class="stat-number">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>کل مطالعه</h3>
+                    <div class="stat-number">0:00</div>
+                </div>
+                <div class="date-display">
+                    <div class="day">یکشنبه</div>
+                    <div class="full-date">۱۶ فروردین ۱۴۰۴</div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="user-info">
+                <h2 id="username">کاربر</h2>
+                <button id="logout-btn" class="logout-btn">خروج</button>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="جستجو" class="search-input">
+            </div>
+            <div class="users-list">
+                <h3>کاربران</h3>
+                <ul id="users-container">
+                    <li class="loading-users">در حال بارگذاری کاربران...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <h2>New Task</h2>
+            
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="task-title" class="task-input" placeholder="Enter task title...">
+            </div>
+
+            <div class="form-group">
+                <label>Date</label>
+                <div class="flatpickr-wrapper" style="position: relative;">
+                    <input type="text" id="task-date" class="date-input" placeholder="انتخاب تاریخ..." data-input>
+                    <button class="calendar-btn" title="تقویم" data-toggle>
+                        <i class="fas fa-calendar"></i>
+                    </button>
                 </div>
             </div>
 
-            <div class="bottom-icons">
-                <button class="icon-btn"><img src="users-icon.png" alt="Users"></button>
-                <button class="icon-btn"><img src="book-icon.png" alt="Book"></button>
-                <button class="icon-btn"><img src="star-icon.png" alt="Star"></button>
-                <button class="icon-btn"><img src="settings-icon.png" alt="Settings"></button>
+            <div class="form-group time-pickers">
+                <div class="time-picker-start">
+                    <label>Start time</label>
+                    <input type="time" id="time-start" class="time-input">
+                </div>
+                <div class="time-picker-end">
+                    <label>End time</label>
+                    <input type="time" id="time-end" class="time-input">
+                </div>
             </div>
-        </main>
+
+            <div class="form-group">
+                <label>Category</label>
+                <div class="category-buttons">
+                    <button class="category-btn score-1" data-score="1">Score 1</button>
+                    <button class="category-btn score-2" data-score="2">Score 2</button>
+                    <button class="category-btn score-3" data-score="3">Score 3</button>
+                </div>
+            </div>
+
+            <button class="submit-task-btn">Create New Task</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <h2>ویرایش کاربر</h2>
+            <div class="form-group">
+                <input type="hidden" id="edit-user-id">
+                <label for="edit-user-name">نام کاربر:</label>
+                <input type="text" id="edit-user-name" required>
+                <label for="edit-user-filter">فیلتر (برچسب) کاربر:</label>
+                <input type="text" id="edit-user-filter" style="width: 100%; direction: ltr;">
+            </div>
+            <div class="modal-actions">
+                <button id="saveEditUserBtn">ذخیره</button>
+                <button id="cancelEditUserBtn">انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Enable detailed error logging
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error('Global error:', { message, source, lineno, colno, error });
+            return false;
+        };
+        
+        // Initialize Supabase client
+        const supabaseUrl = 'https://lholzspyazziknxqopmi.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxob2x6c3B5YXp6aWtueHFvcG1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIwMjc0MTAsImV4cCI6MjA1NzYwMzQxMH0.uku06OF-WapBhuV-A_rJBXu3x24CKKkSTM0SnmPIOOE';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Check authentication status
+        async function checkAuth() {
+            try {
+                console.log('Checking authentication...');
+                const { data: { user }, error } = await supabase.auth.getUser();
+                
+                if (error) {
+                    console.error('Error checking auth:', error);
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                if (user) {
+                    console.log('User authenticated:', user);
+                    const username = user.user_metadata.username || user.email;
+                    document.getElementById('username').textContent = username;
+                } else {
+                    console.log('No user logged in, redirecting to login');
+                    window.location.href = '/login.html';
+                }
+            } catch (error) {
+                console.error('Error checking auth:', error);
+                window.location.href = '/login.html';
+            }
+        }
+        
+        // Logout function
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+                await supabase.auth.signOut();
+                window.location.href = '/login.html';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fa.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
 </body>
-</html> 
+</html>
